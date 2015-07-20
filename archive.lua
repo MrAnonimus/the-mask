@@ -33,7 +33,7 @@ local scrollView = widget.newScrollView
     height = _H * 0.895
 }
 
-local issues = {"the_mask_cover.png", "cover2.png", "cover3.png"}
+local issues = {"the_mask_cover.png", "cover2.png", "cover3.png", "cover4.png", "cover5.jpg"}
 local older_issues = {}
 
 local function create_archived_grid()
