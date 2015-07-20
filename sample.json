@@ -1,0 +1,20 @@
+{
+  "info": {
+    "date": "Giugno '15",
+    "img": "http://..."
+  },
+  "articles": {
+    "Title 1": {
+      "link": "http://...",
+      "category": "a"
+    },
+    "Title 2": {
+      "link": "http://...",
+      "category": "b"
+    },
+    "Title 3": {
+      "link": "http://...",
+      "category": "a"
+    }
+  }
+}
