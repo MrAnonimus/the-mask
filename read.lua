@@ -11,6 +11,8 @@ local _H = display.contentHeight
 -- show status bar for iPhones
 display.setStatusBar( display.DarkStatusBar )
 
+local offset = display.statusBarHeight * 0.6
+
 local composer = require( "composer" )
 local widget = require( "widget" )
 
@@ -134,10 +136,13 @@ function scene:create( event )
     
     issue_date = display.newText( "Giugno '15", 0, 0, native.systemFontBold, _W * 0.056 )
     issue_date:setFillColor( 1, 1, 1 )
-    issue_date.y = _H * 0.05
+    issue_date.y = _H * 0.048 + offset * 0.9
     issue_date.x = _W * 0.5
     issue_date.anchorX = 0.5
     issue_date.anchorY = 0
+    
+    articles_table.y = issue_date.y + issue_date.height + _H * 0.016
+    articles_table.anchorY = 0
     
     cancel = display.newImageRect("cancel.png", _W * 0.08 , _W * 0.08)
     cancel.anchorX = 0

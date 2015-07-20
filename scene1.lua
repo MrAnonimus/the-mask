@@ -26,7 +26,7 @@ local latest_issue_txt
 local older_issues_txt
 local archivio_numeri_txt
 local social_media
-local social_media_icon_size = _W * 0.07
+local social_media_icon_size = _W * 0.077
 
 
 
@@ -118,7 +118,7 @@ function scene:create( event )
     the_mask_logo.y = _H * 0.26
     the_mask_logo.alpha = 1
     
-    the_mask_motto = display.newText( "A full Mascheroni Production", 0, 0, native.systemFontBold, _W * 0.05 )
+    the_mask_motto = display.newText( "A full Mascheroni Production", 0, 0, native.systemFontBold, _W * 0.045 )
     the_mask_motto:setFillColor( 1, 1, 1 )
     the_mask_motto.y = the_mask_logo.y + the_mask_logo.height + _H * 0.05
     the_mask_motto.x = _W * 0.5

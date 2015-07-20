@@ -7,7 +7,7 @@
 local _W = display.viewableContentWidth
 local _H = display.contentHeight
 
-
+local offset = display.statusBarHeight * 0.6
 -- show status bar for iPhones
 display.setStatusBar( display.DarkStatusBar )
 
@@ -27,7 +27,7 @@ local grid
 
 local scrollView = widget.newScrollView
 {
-    top = _H * 0.105,
+    top = 0,
     left = 0,
     width = _W,
     height = _H * 0.895
@@ -74,18 +74,21 @@ function scene:create( event )
     background.y = _H * 0.5
     background:setFillColor(0.97,0.97,0.97)
     
-    divisor = display.newImageRect("divisor.png", _W, 1)
-    divisor.x = 0
-    divisor.y = _H * 0.105
-    divisor.anchorX = 0
-    divisor.alpha = 0.2
-    
     back_icon = display.newImageRect("back.png", _W * 0.09, _W * 0.09)
     back_icon.x = 0
-    back_icon.y = _H * 0.075
+    back_icon.y = _H * 0.048 + offset
     back_icon.anchorX = 0
     back_icon.anchorY = 0.5
     back_icon.alpha = 0
+    
+    divisor = display.newImageRect("divisor.png", _W, 1)
+    divisor.x = 0
+    divisor.y = back_icon.y + back_icon.height * 0.5 + _H * 0.01
+    divisor.anchorX = 0
+    divisor.alpha = 0.2
+    
+    scrollView.y = divisor.y
+    scrollView.anchorY = 0
     
     back_icon:setFillColor(1, 0.45, 0)
     
