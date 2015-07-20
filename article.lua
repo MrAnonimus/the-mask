@@ -31,7 +31,7 @@ end
 local function on_click_back(e)
   local options =
     {
-        effect = "fromLeft",
+        effect = "slideRight",
         time = 400,
         params = {
           n = 0
