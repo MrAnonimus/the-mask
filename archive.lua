@@ -9,7 +9,7 @@ local _H = display.contentHeight
 
 local offset = display.statusBarHeight * 0.6
 -- show status bar for iPhones
-display.setStatusBar( display.DarkStatusBar )
+display.setStatusBar( display.DefaultStatusBar )
 
 local composer = require( "composer" )
 local widget = require( "widget" )
@@ -72,7 +72,7 @@ function scene:create( event )
     background = display.newRect(0, 0, _W, _H)
     background.x = _W * 0.5
     background.y = _H * 0.5
-    background:setFillColor(0.97,0.97,0.97)
+    background:setFillColor(0.98)
     
     back_icon = display.newImageRect("back.png", _W * 0.09, _W * 0.09)
     back_icon.x = 0

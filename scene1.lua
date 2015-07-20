@@ -8,7 +8,7 @@ local _W = display.viewableContentWidth
 local _H = display.contentHeight
 
 -- show status bar for iPhones
-display.setStatusBar( display.DarkStatusBar )
+display.setStatusBar( display.DefaultStatusBar )
 
 local composer = require( "composer" )
 local widget = require( "widget" )
@@ -92,7 +92,7 @@ function scene:create( event )
     background = display.newRect(0, 0, _W, _H)
     background.x = _W * 0.5
     background.y = _H * 0.5
-    background:setFillColor(0.97,0.97,0.97)
+    background:setFillColor(0.98)
     
 
     cover = display.newRect(0, 0, _W, _H * 0.56)

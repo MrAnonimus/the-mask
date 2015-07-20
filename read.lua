@@ -9,7 +9,7 @@ local _H = display.contentHeight
 
 
 -- show status bar for iPhones
-display.setStatusBar( display.DarkStatusBar )
+display.setStatusBar( display.DefaultStatusBar )
 
 local offset = display.statusBarHeight * 0.6
 
