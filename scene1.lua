@@ -8,7 +8,7 @@ local _W = display.viewableContentWidth
 local _H = display.contentHeight
 
 -- show status bar for iPhones
-display.setStatusBar( display.TranslucentStatusBar )
+display.setStatusBar( display.DarkStatusBar )
 
 local composer = require( "composer" )
 local widget = require( "widget" )
@@ -76,7 +76,15 @@ local function on_click_btn()
     composer.gotoScene("read", options)
 end
 
-
+local function on_click_archivio()
+    local options =
+    {
+        effect = "fromBottom",
+        time = 400
+        
+    }
+    composer.gotoScene("archive", options)
+end
 
 function scene:create( event )
     local sceneGroup = self.view
@@ -156,6 +164,7 @@ function scene:show( event )
     if phase == "will" then
         -- Called when the scene is still off screen and is about to move on screen
         latest_issue_btn:addEventListener("tap", on_click_btn)
+        archivio_numeri_txt:addEventListener("tap", on_click_archivio)
     elseif phase == "did" then
         -- Called when the scene is now on screen
         -- 
@@ -178,6 +187,7 @@ function scene:hide( event )
         -- INSERT code here to pause the scene
         -- e.g. stop timers, stop animation, unload sounds, etc.)
         latest_issue_btn:removeEventListener("tap", on_click_btn)
+        archivio_numeri_txt:removeEventListener("tap", on_click_archivio)
     elseif phase == "did" then
         -- Called when the scene is now off screen
 		

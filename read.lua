@@ -9,7 +9,7 @@ local _H = display.contentHeight
 
 
 -- show status bar for iPhones
-display.setStatusBar( display.TranslucentStatusBar )
+display.setStatusBar( display.DarkStatusBar )
 
 local composer = require( "composer" )
 local widget = require( "widget" )
@@ -77,7 +77,7 @@ end
 local articles_table = widget.newTableView
 {
     left = 0,
-    top = _H * 0.18,
+    top = _H * 0.12,
     height = _H * 0.8,
     width = _W,
     backgroundColor = {1,1,1},
@@ -103,7 +103,6 @@ local function on_click_cancel()
     }
     composer.gotoScene("scene1", options)
 end
-
 
 
 function scene:create( event )
@@ -135,7 +134,7 @@ function scene:create( event )
     
     issue_date = display.newText( "Giugno '15", 0, 0, native.systemFontBold, _W * 0.056 )
     issue_date:setFillColor( 1, 1, 1 )
-    issue_date.y = _H * 0.08
+    issue_date.y = _H * 0.05
     issue_date.x = _W * 0.5
     issue_date.anchorX = 0.5
     issue_date.anchorY = 0
@@ -174,6 +173,7 @@ function scene:show( event )
         -- Called when the scene is still off screen and is about to move on screen
         
         cancel:addEventListener("tap", on_click_cancel)
+        transition.to(cancel, {alpha = 1, time = 150})
     elseif phase == "did" then
         -- Called when the scene is now on screen
         -- 
@@ -200,6 +200,7 @@ function scene:hide( event )
         for i = 1, 4 do
           transition.to(rows[i], {alpha = 0, time = 150, delay = 0})
         end
+        transition.to(cancel, {alpha = 0, time = 150})
     elseif phase == "did" then
         -- Called when the scene is now off screen
         

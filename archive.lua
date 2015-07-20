@@ -23,9 +23,32 @@ local back_icon
 local back_title
 local divisor
 local title
-local webview
+local grid
 
-local function create_content()
+local scrollView = widget.newScrollView
+{
+    top = _H * 0.105,
+    left = 0,
+    width = _W,
+    height = _H * 0.895
+}
+
+local issues = {"the_mask_cover.png", "cover2.png", "cover3.png"}
+local older_issues = {}
+
+local function create_archived_grid()
+  local g = display.newGroup()
+  for i = 1, #issues do
+    local issue = display.newImageRect(issues[i], _W * 0.5, _W * 1.417 * 0.5)
+    issue.x = ((i - 1) % 2) * _W * 0.5
+    issue.y = _W * 1.417 * 0.5 * math.floor((i - 1)/2)
+    issue.anchorX = 0
+    issue.anchorY = 0
+    issue.link = issues[i]
+    older_issues[i] = issue
+    g:insert(issue)
+  end
+  return g
 end
 
 
@@ -38,7 +61,7 @@ local function on_click_back(e)
           n = 0
         }
     }
-    composer.gotoScene("read", options)
+    composer.gotoScene("scene1", options)
 end
 ---------------------------------------------------------------------------------
 
@@ -63,9 +86,10 @@ function scene:create( event )
     back_icon.anchorX = 0
     back_icon.anchorY = 0.5
     back_icon.alpha = 0
+    
     back_icon:setFillColor(1, 0.45, 0)
     
-    back_title = display.newText( "Articoli", 0, 0, native.systemFont, _W * 0.05 )
+    back_title = display.newText( "Home", 0, 0, native.systemFont, _W * 0.05 )
     back_title:setFillColor( 1, 1, 1)
     back_title.y = back_icon.y
     back_title.x = back_icon.x + back_icon.width - _W * 0.01
@@ -74,19 +98,27 @@ function scene:create( event )
     back_title:setFillColor(1, 0.45, 0)
     back_title.alpha = 0
     
-    webview = native.newWebView( 0, 0, 320, 480 )
-    webview.anchorX = 0
-    webview.anchorY = 0
-    webview.x = 0
-    webview.y = divisor.y
-    webview:request( "localfile.html" )
+    title = display.newText( "Archivio", 0, 0, native.systemFont, _W * 0.05 )
+    title.y = back_icon.y
+    title.x = _W * 0.5
+    title.anchorX = 0.5
+    title.anchorY = 0.5
+    title:setFillColor(1, 0.45, 0)
+    title.alpha = 0
+    
+    grid = create_archived_grid()
+    grid.anchorX = 0
+    grid.anchorY = 0
+    grid.y = 0
     
     sceneGroup:insert(background)
     sceneGroup:insert(back_icon)
     sceneGroup:insert(back_title)
-    sceneGroup:insert(webview)
+    sceneGroup:insert(title)
+    scrollView:insert(grid)
+    sceneGroup:insert(scrollView)
     sceneGroup:insert(divisor)
-     
+    
 end
 
 function scene:show( event )
@@ -100,6 +132,7 @@ function scene:show( event )
         
         transition.to(back_title, {alpha = 1, time = 150})
         transition.to(back_icon, {alpha = 1, time = 150})
+        transition.to(title, {alpha = 1, time = 150})
     elseif phase == "did" then
         -- Called when the scene is now on screen
         -- 
@@ -124,6 +157,7 @@ function scene:hide( event )
         back_title:removeEventListener("tap", on_click_back)
         transition.to(back_icon, {alpha = 0, time = 150})
         transition.to(back_title, {alpha = 0, time = 150})
+        transition.to(title, {alpha = 0, time = 150})
     elseif phase == "did" then
         -- Called when the scene is now off screen
         
