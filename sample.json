@@ -7,17 +7,17 @@
   "articles": {
     "1": {
       "title": "Title 1",
-      "link": "http://...",
+      "link": "1.html",
       "category": "a"
     },
     "2": {
       "title": "Title 2",
-      "link": "http://...",
+      "link": "2.html",
       "category": "b"
     },
     "3": {
       "title": "Title 3",
-      "link": "http://...",
+      "link": "3.html",
       "category": "a"
     }
   }
