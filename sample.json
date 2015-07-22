@@ -1,20 +1,21 @@
 {
   "info": {
     "date": "Giugno '15",
-    "img": "http://..."
+    "img": "http://...",
+    "n": "3"
   },
   "articles": {
-    "article": {
+    "1": {
       "title": "Title 1",
       "link": "http://...",
       "category": "a"
     },
-    "article": {
+    "2": {
       "title": "Title 2",
       "link": "http://...",
       "category": "b"
     },
-    "article": {
+    "3": {
       "title": "Title 3",
       "link": "http://...",
       "category": "a"
