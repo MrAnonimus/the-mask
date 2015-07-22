@@ -5,17 +5,17 @@
   },
   "articles": {
     {
-      "title": "Title 1"
+      "title": "Title 1",
       "link": "http://...",
       "category": "a"
     },
     {
-      "title": "Title 2"
+      "title": "Title 2",
       "link": "http://...",
       "category": "b"
     },
     {
-      "title": "Title 3"
+      "title": "Title 3",
       "link": "http://...",
       "category": "a"
     }
