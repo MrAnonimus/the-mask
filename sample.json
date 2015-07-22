@@ -4,17 +4,17 @@
     "img": "http://..."
   },
   "articles": {
-    {
+    "article": {
       "title": "Title 1",
       "link": "http://...",
       "category": "a"
     },
-    {
+    "article": {
       "title": "Title 2",
       "link": "http://...",
       "category": "b"
     },
-    {
+    "article": {
       "title": "Title 3",
       "link": "http://...",
       "category": "a"
