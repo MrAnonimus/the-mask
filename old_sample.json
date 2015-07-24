@@ -1,0 +1,28 @@
+{
+  "info": {
+    "date": "Maggio 15",
+    "img": "cover3.png",
+    "n": "3",
+    "id": "9"
+  },
+  "articles": {
+    "1": {
+      "title": "Title 1",
+      "link": "1.html",
+      "category": "a",
+      "summary": "Lorem ipsum dolor sit amet, consectetur adipiscing elit."
+    },
+    "2": {
+      "title": "Title 2",
+      "link": "2.html",
+      "category": "b",
+      "summary": "Lorem ipsum dolor sit amet, consectetur adipiscing elit."
+    },
+    "3": {
+      "title": "Title 3",
+      "link": "3.html",
+      "category": "a",
+      "summary": "Lorem ipsum dolor sit amet, consectetur adipiscing elit."
+    }
+  }
+}
