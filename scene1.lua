@@ -64,6 +64,7 @@ local archivio_numeri_txt
 local shadow
 local social_media
 local social_media_icon_size = _W * 0.079
+local ipse_dixit
 local params = {}
 params.progress = true
 
@@ -118,6 +119,17 @@ local function on_click_btn()
         }
     }
     composer.gotoScene("read", options)
+end
+
+local function on_click_ipse()
+    local options =
+    {
+        effect = "fromLeft",
+        time = 400,
+        params = {
+        }
+    }
+    composer.gotoScene("ipse", options)
 end
 
 local function on_click_archivio()
@@ -384,8 +396,7 @@ function scene:create( event )
     background.y = _H * 0.5
     background:setFillColor(1)
     
-
-    cover = display.newRect(0, 0, _W, _H * 0.54)
+    cover = display.newRect(0, 0, _W, _H * 0.5)
     cover.x = 0
     cover.y = 0
     cover.anchorX = 0
@@ -408,7 +419,7 @@ function scene:create( event )
     
     latest_issue_btn = display.newRoundedRect(0, 0, _W * 0.4, _W * 0.12, _H * 0.008)
     latest_issue_btn.x = _W * 0.5
-    latest_issue_btn.y = _H * 0.66
+    latest_issue_btn.y = _H * 0.61
     latest_issue_btn.anchorX = 0.5
     latest_issue_btn.anchorY = 0.5
     latest_issue_btn:setFillColor(unpack(orange))
@@ -419,12 +430,12 @@ function scene:create( event )
     the_mask_logo.anchorX = 0.5
     the_mask_logo.anchorY = 0
     the_mask_logo.x = _W * 0.5
-    the_mask_logo.y = _H * 0.265
+    the_mask_logo.y = _H * 0.23
     the_mask_logo.alpha = 1
     
     the_mask_motto = display.newText( "A full Mascheroni Production", 0, 0, native.systemFontBold, _W * 0.045 )
     the_mask_motto:setFillColor( 1, 1, 1 )
-    the_mask_motto.y = the_mask_logo.y + the_mask_logo.height + _H * 0.05
+    the_mask_motto.y = the_mask_logo.y + the_mask_logo.height + _H * 0.03
     the_mask_motto.x = _W * 0.5
     the_mask_motto.anchorX = 0.5
     the_mask_motto.anchorY = 0
@@ -437,12 +448,20 @@ function scene:create( event )
     latest_issue_txt.anchorX = 0.5
     latest_issue_txt.anchorY = 0.5
     
-    archivio_numeri_txt = display.newText( "Archivio numeri", 0, 0, native.systemFontBold, _W * 0.034 )
+    archivio_numeri_txt = display.newText( "Archivio numeri", 0, 0, native.systemFontBold, _W * 0.035 )
     archivio_numeri_txt:setFillColor( 0.2, 0.2, 0.2)
-    archivio_numeri_txt.y = latest_issue_btn.y + _H * 0.09
+    archivio_numeri_txt.y = latest_issue_btn.y + _H * 0.095
     archivio_numeri_txt.x = _W * 0.5
     archivio_numeri_txt.anchorX = 0.5
     archivio_numeri_txt.anchorY = 0.5
+    
+    ipse_dixit = display.newImageRect("ipse.png", _W * 0.079, _W * 0.079)
+    ipse_dixit.anchorX = 1
+    ipse_dixit.anchorY = 0.5
+    ipse_dixit.x = _W * 0.915
+    ipse_dixit.y = _H * 0.92
+    ipse_dixit.alpha = 1
+    ipse_dixit:setFillColor(unpack(orange))
     
     social_media = create_social_media_group()
     social_media.y = _H * 0.92
@@ -459,6 +478,7 @@ function scene:create( event )
     sceneGroup:insert(latest_issue_btn)
     sceneGroup:insert(the_mask_logo)
     sceneGroup:insert(the_mask_motto)
+    sceneGroup:insert(ipse_dixit)
     sceneGroup:insert(latest_issue_txt)
     sceneGroup:insert(archivio_numeri_txt)
     sceneGroup:insert(social_media)
@@ -473,6 +493,7 @@ function scene:show( event )
         -- Called when the scene is still off screen and is about to move on screen
         display.setStatusBar( display.TranslucentStatusBar )
         latest_issue_btn:addEventListener("tap", on_click_btn)
+        ipse_dixit:addEventListener("tap", on_click_ipse)
         archivio_numeri_txt:addEventListener("tap", on_click_archivio)
     elseif phase == "did" then
         -- Called when the scene is now on screen
@@ -499,6 +520,7 @@ function scene:hide( event )
         -- e.g. stop timers, stop animation, unload sounds, etc.)
         latest_issue_btn:removeEventListener("tap", on_click_btn)
         archivio_numeri_txt:removeEventListener("tap", on_click_archivio)
+        ipse_dixit:removeEventListener("tap", on_click_ipse)
     elseif phase == "did" then
         -- Called when the scene is now off screen
 		

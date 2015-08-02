@@ -27,6 +27,7 @@ local scene = composer.newScene( sceneName )
 -- Variables
 local background
 local shadow
+local img_shadow
 local back_icon
 local back_title
 local social
@@ -37,18 +38,34 @@ local content
 local body
 local image
 local image_link
-
+local params = {}
 local author
 local author_name
 local summary
+local title_text
+local img_path
+local category
 
 local scrollView = widget.newScrollView
 {
     top = 0,
     left = 0,
     width = _W,
-    height = _H * 0.895
+    height = _H * 0.895,
+    bottomPadding = _H * 0.1
 }
+
+local function does_exist(name)
+	--> Specify the path
+	local path = system.pathForFile( name, system.DocumentsDirectory )
+	--> This opens the specified file and returns nil if it couldn't be found
+	local fh = io.open( path, "r" )
+	if fh then
+	   return true
+	else
+	   return false
+	end
+end
 
 local function get_content(name)
 	local path = system.pathForFile( name, system.DocumentsDirectory )
@@ -71,17 +88,53 @@ local function on_click_back(e)
     composer.gotoScene("read", options)
 end
 
+local function show_image()
+
+  image = display.newImageRect(img_path, system.DocumentsDirectory, _W , _W * 0.5)
+  image.x = 0
+  image.y = _H * 0.02 + author.y + author.height
+  image.anchorX = 0
+  image.anchorY = 0
+  image.alpha = 0
+  
+  img_shadow = display.newImageRect("gradient3.png", _W, _W * 0.02)
+  img_shadow.anchorX = 0.5
+  img_shadow.anchorY = 0
+  img_shadow.rotation = 180
+  img_shadow.x = _W * 0.5
+  img_shadow.y = image.y + image.height + _H * 0.005
+  img_shadow.alpha = 0
+  scrollView:insert(img_shadow)
+  scrollView:insert(image)
+  transition.to(image, {alpha = 1, time = 500, transition = easing.outExpo})
+  transition.to(img_shadow, {alpha = 1, time = 500, transition = easing.outExpo})
+end
+
+local function img_networkListener( event )
+    if ( event.isError ) then
+        print( "Network error - download failed" )
+    elseif ( event.phase == "began" ) then
+        print( "Progress Phase: began" )
+    elseif ( event.phase == "ended" ) then
+        print("Image downloaded")
+        img_path =  event.response.filename
+        show_image()
+    end
+end
+
 local function decode_issue(response)
   local json_response = json.decode(response)
   author_name = json_response["author"]
   content = json_response["content"]
   image_link = json_response["link"]
+  
 end
 ---------------------------------------------------------------------------------
 
 
 function scene:create( event )
     local sceneGroup = self.view
+    title_text = event.params.title
     print(event.params.link)
     decode_issue(get_content(event.params.link))
     
@@ -115,23 +168,23 @@ function scene:create( event )
     
     title = display.newText( event.params.title, 0, 0, _W * 0.9, 0, native.systemFont, _W * 0.09 )
     title:setFillColor( 0.4, 0.4, 0.4)
-    title.y = _H * 0.03
+    title.y = _H * 0.02
     title.x = _W * 0.05
     title.anchorX = 0
     title.anchorY = 0
     title.alpha = 1
     
-    author = display.newText( "di "..author_name, 0, 0, _W * 0.9, 0, native.systemFont, _W * 0.034 )
+    author = display.newText( "di "..author_name, 0, 0, _W * 0.9, 0, "Roboto Light", _W * 0.034 )
     author:setFillColor( 0.4, 0.4, 0.4)
-    author.y = title.y + title.height + _H * 0.02
+    author.y = title.y + title.height + _H * 0.015
     author.x = _W * 0.05
     author.anchorX = 0
     author.anchorY = 0
     author.alpha = 1
     
-    body = display.newText( content, 0, 0, _W * 0.9, 0, "Ubuntu Regular", _W * 0.055 )
+    body = display.newText( content, 0, 0, _W * 0.9, 0, "Roboto Bold", _W * 0.050 )
     body:setFillColor( 0.2, 0.2, 0.2)
-    body.y = author.y + author.height + _H * 0.04
+    body.y = author.y + author.height + _H * 0.045 + _W * 0.5
     body.x = _W * 0.05
     body.anchorX = 0
     body.anchorY = 0
@@ -159,6 +212,14 @@ function scene:create( event )
     social.alpha = 0
     social:setFillColor(1)
     
+    category = display.newText( "Storia", 0, 0, native.systemFontBold, _W * 0.05 )
+    category:setFillColor(1)
+    category.y = social.y
+    category.x = _W * 0.5
+    category.anchorX = 0.5
+    category.anchorY = 0.5
+    category.alpha = 1
+    
     scrollView.y = divisor.y
     scrollView.height = _H - divisor.y
     scrollView.anchorY = 0
@@ -168,6 +229,7 @@ function scene:create( event )
     sceneGroup:insert(dock)
     sceneGroup:insert(back_icon)
     sceneGroup:insert(social)
+    sceneGroup:insert(category)
     sceneGroup:insert(back_title)
     scrollView:insert(title)
     scrollView:insert(author)
@@ -192,6 +254,19 @@ function scene:show( event )
         transition.to(social, {alpha = 1, time = 150})
         transition.to(back_title, {alpha = 1, time = 150})
         transition.to(back_icon, {alpha = 1, time = 150})
+        if not does_exist(string.gsub(title_text, " ", "_")..".jpg") then
+          network.download(
+                  image_link,
+                  "GET",
+                  img_networkListener,
+                  params,
+                  string.gsub(title_text, " ", "_")..".jpg",
+                  system.DocumentsDirectory
+              )
+        else
+          img_path =  string.gsub(title_text, " ", "_")..".jpg"
+          show_image()
+        end
     elseif phase == "did" then
         -- Called when the scene is now on screen
         -- 
