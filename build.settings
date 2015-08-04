@@ -80,6 +80,10 @@ settings =
 	},
   plugins =
     {
+        ["CoronaProvider.native.popup.social"] =
+        {
+            publisherId = "com.coronalabs"
+        },
         ["plugin.GameThrivePushNotifications"] =
         {
             publisherId = "com.gamethrive",

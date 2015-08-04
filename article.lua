@@ -45,6 +45,7 @@ local summary
 local title_text
 local img_path
 local category
+local social_options
 
 local scrollView = widget.newScrollView
 {
@@ -76,6 +77,10 @@ local function get_content(name)
 	return fh:read( "*a" )
 end
 
+local function on_click_fb(e)
+  native.showPopup( "social", social_options )
+end
+
 local function on_click_back(e)
   local options =
     {
@@ -87,6 +92,8 @@ local function on_click_back(e)
     }
     composer.gotoScene("read", options)
 end
+
+
 
 local function show_image()
 
@@ -119,6 +126,7 @@ local function img_networkListener( event )
         print("Image downloaded")
         img_path =  event.response.filename
         show_image()
+        social:addEventListener("tap", on_click_fb)
     end
 end
 
@@ -127,7 +135,38 @@ local function decode_issue(response)
   author_name = json_response["author"]
   content = json_response["content"]
   image_link = json_response["link"]
-  
+end
+
+local function get_category_title(category)
+  if category == "a" then
+    return "Arte"
+  elseif category == "b" then
+    return "Attualità"
+  elseif category == "c" then
+    return "Cibo"
+  elseif category == "d" then
+    return "Economia"
+  elseif category == "e" then
+    return "Editoriale"
+  elseif category == "f" then
+    return "Film"
+  elseif category == "g" then
+    return "Locali"
+  elseif category == "h" then
+    return "Moda"
+  elseif category == "i" then
+    return "Musica"
+  elseif category == "j" then
+    return "Rubrica"
+  elseif category == "k" then
+    return "Scienza"
+  elseif category == "l" then
+    return "Scuola"
+  elseif category == "m" then
+    return "Tecnologia"
+  else
+    return "Viaggi"
+  end
 end
 ---------------------------------------------------------------------------------
 
@@ -212,7 +251,7 @@ function scene:create( event )
     social.alpha = 0
     social:setFillColor(1)
     
-    category = display.newText( "Storia", 0, 0, native.systemFontBold, _W * 0.05 )
+    category = display.newText( get_category_title(event.params.category), 0, 0, native.systemFontBold, _W * 0.05 )
     category:setFillColor(1)
     category.y = social.y
     category.x = _W * 0.5
@@ -223,6 +262,15 @@ function scene:create( event )
     scrollView.y = divisor.y
     scrollView.height = _H - divisor.y
     scrollView.anchorY = 0
+    
+    options = {
+        service = "facebook",
+        message = title_text,
+        image = {
+            { filename = string.gsub(title_text, " ", "_")..".jpg", baseDir = system.DocumentsDirectory }
+        },
+        url = "http://themask.liceomascheroni.it/"
+    }
     
     sceneGroup:insert(background)
     sceneGroup:insert(shadow)
@@ -238,7 +286,6 @@ function scene:create( event )
     sceneGroup:insert(scrollView)
     sceneGroup:insert(divisor)
     
-     
 end
 
 function scene:show( event )
@@ -266,6 +313,7 @@ function scene:show( event )
         else
           img_path =  string.gsub(title_text, " ", "_")..".jpg"
           show_image()
+          social:addEventListener("tap", on_click_fb)
         end
     elseif phase == "did" then
         -- Called when the scene is now on screen
@@ -288,6 +336,7 @@ function scene:hide( event )
         -- INSERT code here to pause the scene
         -- e.g. stop timers, stop animation, unload sounds, etc.)
         back_icon:removeEventListener("tap", on_click_back)
+        social:removeEventListener("tap", on_click_fb)
         back_title:removeEventListener("tap", on_click_back)
         transition.to(social, {alpha = 0, time = 150})
         transition.to(back_icon, {alpha = 0, time = 150})
@@ -295,7 +344,7 @@ function scene:hide( event )
     elseif phase == "did" then
         -- Called when the scene is now off screen
         
-		
+        composer.removeScene("article")
     end 
 end
 

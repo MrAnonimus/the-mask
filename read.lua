@@ -83,11 +83,33 @@ end
 
 local function get_category_link(category)
   if category == "a" then
-    return "scuola.png"
-  elseif category == "b" then
     return "arte.png"
+  elseif category == "b" then
+    return "attualita.png"
   elseif category == "c" then
+    return "cibo.png"
+  elseif category == "d" then
+    return "economia.png"
+  elseif category == "e" then
+    return "editoriale.png"
+  elseif category == "f" then
+    return "film.png"
+  elseif category == "g" then
+    return "locali.png"
+  elseif category == "h" then
+    return "moda.png"
+  elseif category == "i" then
     return "musica.png"
+  elseif category == "j" then
+    return "rubrica.png"
+  elseif category == "k" then
+    return "scienza.png"
+  elseif category == "l" then
+    return "scuola.png"
+  elseif category == "m" then
+    return "tecnologia.png"
+  else
+    return "viaggi.png"
   end
 end
 
@@ -135,6 +157,7 @@ local function onRowRender( event )
     row.link = links[i]
     row.summary = summaries[i]
     row.title = articles[i]
+    row.category = categories[i]
     rows[i] = row
     row.alpha = 1
     i = i + 1
@@ -148,7 +171,8 @@ local function onRowTouch(e)
         params = {
           link = e.target.link,
           title = e.target.title,
-          summary = e.target.summary
+          summary = e.target.summary,
+          category = e.target.category
         }
     }
     composer.gotoScene("article", options)
