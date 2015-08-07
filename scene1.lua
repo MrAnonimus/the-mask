@@ -65,6 +65,7 @@ local shadow
 local social_media
 local social_media_icon_size = _W * 0.079
 local ipse_dixit
+local orange_shadow
 local params = {}
 params.progress = true
 
@@ -104,10 +105,17 @@ local function on_click_social(e)
 	return true
 end
 
-local function on_click_btn()
+local function on_click_btn(e)
+  if e.phase == "began" then
+    transition.to(e.target, {alpha = 0.7, time = 30})
+    transition.to(orange_shadow, {alpha = 0, time = 20})
+  elseif e.phase == "cancelled" then
+    transition.to(e.target, {alpha = 1, time = 80})
+    transition.to(orange_shadow, {alpha = 1, delay = 20, time = 70})
+  elseif e.phase == "ended" then
     local options =
     {
-        effect = "fromTop",
+        effect = "fromBottom",
         time = 400,
         params = {
           articles = latest_issue_articles,
@@ -119,9 +127,20 @@ local function on_click_btn()
         }
     }
     composer.gotoScene("read", options)
+    transition.to(e.target, {alpha = 1, time = 90})
+    transition.to(orange_shadow, {alpha = 1, delay = 20, time = 70})
+  else
+    transition.to(e.target, {alpha = 1, time = 80})
+    transition.to(orange_shadow, {alpha = 1, delay = 30, time = 80})
+  end
 end
 
-local function on_click_ipse()
+local function on_click_ipse(e)
+  if e.phase == "began" then
+    transition.to(e.target, {alpha = 0.7, time = 30})
+  elseif e.phase == "cancelled" then
+    transition.to(e.target, {alpha = 1, time = 80})
+  elseif e.phase == "ended" then
     local options =
     {
         effect = "fromLeft",
@@ -130,12 +149,21 @@ local function on_click_ipse()
         }
     }
     composer.gotoScene("ipse", options)
+    transition.to(e.target, {alpha = 1, time = 90})
+  else
+    transition.to(e.target, {alpha = 1, time = 80})
+  end
 end
 
-local function on_click_archivio()
+local function on_click_archivio(e)
+  if e.phase == "began" then
+    transition.to(e.target, {alpha = 0.7, time = 30})
+  elseif e.phase == "cancelled" then
+    transition.to(e.target, {alpha = 1, time = 80})
+  elseif e.phase == "ended" then
     local options =
     {
-        effect = "fromBottom",
+        effect = "fromTop",
         time = 400,
         params = {
           issue_names = issue_names,
@@ -148,16 +176,21 @@ local function on_click_archivio()
         
     }
     composer.gotoScene("archive", options)
+    transition.to(e.target, {alpha = 1, time = 90})
+  else
+    transition.to(e.target, {alpha = 1, time = 80})
+  end
 end
 
 local function stop_spinner()
-  print("Stop")
+
   latest_issue_btn:addEventListener("tap", on_click_btn)
   archivio_numeri_txt:addEventListener("tap", on_click_archivio)
   spinner:stop()
   spinner.alpha = 0
   transition.to(latest_issue_btn, {alpha = 1, time = 200})
   transition.to(archivio_numeri_txt, {alpha = 1, time = 200})
+  transition.to(orange_shadow, {alpha = 1, delay = 50, time = 150})
 end
 
 local function get_latest()
@@ -213,13 +246,8 @@ local function create_content()
   db:close()
   
   --show_content()
-  for i = 1, #latest_issue_articles do
-    print(latest_issue_articles[i])
-  end
-  print(89)
   completed_count = completed_count + 1
   if completed_count == to_download then
-    print("Getting Latest")
     get_latest()
     stop_spinner()
     is_content_downloaded = true
@@ -228,22 +256,22 @@ end
 
 local function article_networkListener( event )
     if ( event.isError ) then
-        print( "Network error - download failed" )
+     --
     elseif ( event.phase == "began" ) then
-        print( "Progress Phase: began" )
+        --
     elseif ( event.phase == "ended" ) then
-        print( "HTML!" )
+       --
         
     end
 end
 
 local function img_networkListener( event )
     if ( event.isError ) then
-        print( "Network error - download failed" )
+       --
     elseif ( event.phase == "began" ) then
-        print( "Progress Phase: began" )
+      --
     elseif ( event.phase == "ended" ) then
-        print("Image downloaded")
+       --
         create_content()
     end
 end
@@ -276,7 +304,6 @@ local function decode_issue(response)
       query = query.."('"..articles[tostring(i)]["title"].."','"..articles[tostring(i)]["link"].."','"..articles[tostring(i)]["category"].."','"..articles[tostring(i)]["summary"].."');"
     end
   end
-  print(query)
   db:exec(query)
   db:exec("INSERT INTO issues (id, name, link) VALUES ("..id..",'"..date.."', '"..img.."');")
   db:close()
@@ -309,9 +336,9 @@ end
 
 local function networkListener( event )
     if ( event.isError ) then
-        print( "Network error - download failed" )
+      --
     elseif ( event.phase == "began" ) then
-        print( "Progress Phase: began" )
+      --
     elseif ( event.phase == "ended" ) then
         decode_issue(event.response)
     end
@@ -362,13 +389,13 @@ local nextSceneButton
 
 local function dirNetworkListener( event )
     if ( event.isError ) then
-        print( "Network error - download failed" )
+       --
     elseif ( event.phase == "began" ) then
-        print( "Progress Phase: began" )
+      --
     elseif ( event.phase == "ended" ) then
         for line in event.response:gmatch("[^\r\n]+") do 
           to_download = to_download + 1
-          print(to_download)
+        
           network.request( line, "GET", networkListener )
         end
         
@@ -386,6 +413,7 @@ local function start_spinner()
   spinner.alpha = 1
   transition.to(latest_issue_btn, {alpha = 0.3, time = 200})
   transition.to(archivio_numeri_txt, {alpha = 0.3, time = 200})
+  transition.to(orange_shadow, {alpha = 0, time = 100})
 end
 
 function scene:create( event )
@@ -423,6 +451,19 @@ function scene:create( event )
     latest_issue_btn.anchorX = 0.5
     latest_issue_btn.anchorY = 0.5
     latest_issue_btn:setFillColor(unpack(orange))
+    
+    orange_shadow = display.newRoundedRect(0, 0, _W * 0.4, _W * 0.128, _H * 0.009)
+    orange_shadow.x = latest_issue_btn.x
+    orange_shadow.y = latest_issue_btn.y - latest_issue_btn.height * 0.5
+    orange_shadow.anchorX = 0.5
+    orange_shadow.anchorY = 0
+    orange_shadow:setFillColor(0.2)
+    
+    orange_shadow.fill.effect = "filter.linearWipe"
+
+    orange_shadow.fill.effect.direction = { 0, 1 }
+    orange_shadow.fill.effect.smoothness = 0.5
+    orange_shadow.fill.effect.progress = 0.7
     --latest_issue_btn:setStrokeColor(1, 0.45, 0)
     --latest_issue_btn.strokeWidth = 3
     
@@ -448,9 +489,9 @@ function scene:create( event )
     latest_issue_txt.anchorX = 0.5
     latest_issue_txt.anchorY = 0.5
     
-    archivio_numeri_txt = display.newText( "Archivio numeri", 0, 0, native.systemFontBold, _W * 0.035 )
+    archivio_numeri_txt = display.newText( "Archivio numeri", 0, 0, native.systemFontBold, _W * 0.038 )
     archivio_numeri_txt:setFillColor( 0.2, 0.2, 0.2)
-    archivio_numeri_txt.y = latest_issue_btn.y + _H * 0.095
+    archivio_numeri_txt.y = latest_issue_btn.y + _H * 0.11
     archivio_numeri_txt.x = _W * 0.5
     archivio_numeri_txt.anchorX = 0.5
     archivio_numeri_txt.anchorY = 0.5
@@ -475,6 +516,7 @@ function scene:create( event )
     sceneGroup:insert(background)
     sceneGroup:insert(shadow)
     sceneGroup:insert(cover)
+    sceneGroup:insert(orange_shadow)
     sceneGroup:insert(latest_issue_btn)
     sceneGroup:insert(the_mask_logo)
     sceneGroup:insert(the_mask_motto)
@@ -492,9 +534,9 @@ function scene:show( event )
     if phase == "will" then
         -- Called when the scene is still off screen and is about to move on screen
         display.setStatusBar( display.TranslucentStatusBar )
-        latest_issue_btn:addEventListener("tap", on_click_btn)
-        ipse_dixit:addEventListener("tap", on_click_ipse)
-        archivio_numeri_txt:addEventListener("tap", on_click_archivio)
+        latest_issue_btn:addEventListener("touch", on_click_btn)
+        ipse_dixit:addEventListener("touch", on_click_ipse)
+        archivio_numeri_txt:addEventListener("touch", on_click_archivio)
     elseif phase == "did" then
         -- Called when the scene is now on screen
         -- 
@@ -518,9 +560,9 @@ function scene:hide( event )
         --
         -- INSERT code here to pause the scene
         -- e.g. stop timers, stop animation, unload sounds, etc.)
-        latest_issue_btn:removeEventListener("tap", on_click_btn)
-        archivio_numeri_txt:removeEventListener("tap", on_click_archivio)
-        ipse_dixit:removeEventListener("tap", on_click_ipse)
+        latest_issue_btn:removeEventListener("touch", on_click_btn)
+        archivio_numeri_txt:removeEventListener("touch", on_click_archivio)
+        ipse_dixit:removeEventListener("touch", on_click_ipse)
     elseif phase == "did" then
         -- Called when the scene is now off screen
 		

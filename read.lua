@@ -11,7 +11,7 @@ local _H = display.contentHeight
 -- show status bar for iPhones
 local offset = display.statusBarHeight * 0.6
 local pl = system.getInfo( "platformName" )
-if pl == "Android" or pl == "Wisn" then
+if pl == "kAndroid" or pl == "Wisn" then
 	offset = 0
 end
 
@@ -57,16 +57,6 @@ local function does_exist(name)
 	   return false
 	end
 end
-
-local function networkListener( event )
-
-    if ( event.isError ) then
-        print( "Network error!" )
-    else
-        print ( "RESPONSE: " .. event.response )
-    end
-end
-
 
 
 local i = 1
@@ -127,15 +117,15 @@ local function onRowRender( event )
     local rowCard = display.newRoundedRect(row, rowWidth*0.5, rowHeight*0.5, rowWidth*0.92, rowHeight*0.9, 5)
     
 
-    local rowTitle = display.newText( row, articles[i], 0, 0, _W * 0.8, 0, native.systemFont, _W * 0.002 )
+    local rowTitle = display.newText( row, articles[i], 0, 0, _W * 0.8, 0, "Roboto", _W * 0.002 )
     
-    local rowSummary = display.newText( row, summaries[i], 0, 0, _W * 0.8, 0, native.systemFont, _W * 0.0018 )
+    local rowSummary = display.newText( row, summaries[i], 0, 0, _W * 0.8, 0, "Arial", _W * 0.0018 )
     local bullet = display.newImageRect(row, get_category_link(categories[i]), _W * 0.11, _W * 0.11)
     bullet.anchorX = 1
     bullet.anchorY = 1
-    bullet.alpha = 0.11
+    bullet.alpha = 0.19
     rowTitle:setFillColor( 1, 0.45, 0 )
-    rowSummary:setFillColor(0.65, 0.65, 0.65)
+    rowSummary:setFillColor(0.35, 0.35, 0.35)
     
     rowCard:setFillColor(1)
     rowShadow:setFillColor(0.92)
@@ -159,13 +149,17 @@ local function onRowRender( event )
     row.title = articles[i]
     row.category = categories[i]
     rows[i] = row
+    row.img = bullet
     row.alpha = 1
     i = i + 1
 end
 
 local function onRowTouch(e)
-  local options =
-    {
+  if e.phase == "press" then
+    transition.to(e.target.img, {alpha = 0.5, time = 100})
+  elseif e.phase == "release" then
+    local options =
+      {
         effect = "fromRight",
         time = 400,
         params = {
@@ -176,6 +170,24 @@ local function onRowTouch(e)
         }
     }
     composer.gotoScene("article", options)
+    transition.to(e.target.img, {alpha = 0.19, time = 100})
+  elseif e.phase == "tap" then
+    local options =
+      {
+        effect = "fromRight",
+        time = 400,
+        params = {
+          link = e.target.link,
+          title = e.target.title,
+          summary = e.target.summary,
+          category = e.target.category
+        }
+    }
+    composer.gotoScene("article", options)
+    transition.to(e.target.img, {alpha = 0.19, time = 100})
+  else
+    transition.to(e.target.img, {alpha = 0.19, time = 100})
+  end
 end
 
 local function scrollListener(e)
@@ -193,7 +205,8 @@ local articles_table = widget.newTableView
     hideScrollBar = true,
     onRowRender = onRowRender,
     onRowTouch = onRowTouch,
-    listener = scrollListener
+    listener = scrollListener,
+    topPadding = _H * 0.02
 }
 
 
@@ -281,15 +294,17 @@ function scene:create( event )
         rowWidth = _W,
         rowColor  = { default={ 0.95,0.95,0.95, 0 }, over={ 159/255, 205/255, 146/255, 0 } },
         lineColor = {0.9, 0.9, 0.9, 0},
+        topPadding = _H * 0.1,
+        hideScrollBar = true,
         params = {}  -- Include custom data in the row
     })
   end
     
     sceneGroup:insert(black_cover)
+    sceneGroup:insert(articles_table)
     sceneGroup:insert(shadow)
     sceneGroup:insert(dock)
     sceneGroup:insert(issue_date)
-    sceneGroup:insert(articles_table)
     sceneGroup:insert(cancel)
     sceneGroup:insert(divisor)
     
@@ -314,7 +329,7 @@ function scene:show( event )
         
         -- we obtain the object by id from the scene's object hierarchy
         
-        transition.to(articles_table, {y = issue_date.y + issue_date.height + _H * 0.015, time = 1100, transition = easing.outExpo})
+        transition.to(articles_table, {y = dock.height, time = 1000, transition = easing.outExpo})
     end 
 end
 

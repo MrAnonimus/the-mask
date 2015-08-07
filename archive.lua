@@ -9,7 +9,7 @@ local _H = display.contentHeight
 
 local offset = display.statusBarHeight * 0.6
 local pl = system.getInfo( "platformName" )
-if pl == "Android" or pl == "Wisn" then
+if pl == "kAndroid" or pl == "Wisn" then
 	offset = 0
 end
 
@@ -33,7 +33,7 @@ local divisor
 local dock
 local title
 local grid
-
+local back_group
 local scrollView = widget.newScrollView
 {
     top = 0,
@@ -74,6 +74,7 @@ end
 local function create_archived_grid()
   local g = display.newGroup()
   for i = 1, #issue_images do
+    local ixxue = display.newGroup()
     local issue = display.newImageRect(issue_images[i], _W, _W * 0.5)
     local shadow = display.newImageRect("gradient3.png", _W, _W * 0.09)
     
@@ -98,30 +99,41 @@ local function create_archived_grid()
     i_title.x = _W * 0.5
     i_title.y = shadow.y - _W * 0.015
     i_title:setFillColor(1)
-    print(issue_articles[i][1])
-    issue:addEventListener("tap", on_click_issue)
-    older_issues[i] = issue
+
+    ixxue:addEventListener("tap", on_click_issue)
+    ixxue.alpha = 0
+    ixxue:insert(issue)
+    ixxue:insert(shadow)
+    ixxue:insert(i_title)
+    older_issues[i] = ixxue
     
-    g:insert(issue)
-    g:insert(shadow)
-    g:insert(i_title)
+    
+    g:insert(ixxue)
   end
-  g.alpha = 0
+  g.alpha = 1
   grid_created = true
   return g
 end
 
 
 local function on_click_back(e)
-  local options =
-    {
-        effect = "slideRight",
-        time = 400,
-        params = {
-          n = 0
-        }
-    }
-    composer.gotoScene("scene1", options)
+  if e.phase == "began" then
+    transition.to(e.target, {alpha = 0.7, time = 30})
+  elseif e.phase == "cancelled" then
+    transition.to(e.target, {alpha = 1, time = 80})
+  elseif e.phase == "ended" then
+    local options =
+      {
+          effect = "slideRight",
+          time = 400,
+          params = {
+            n = 0
+          }
+      }
+      composer.gotoScene("scene1", options)
+  else
+    transition.to(e.target, {alpha = 1, time = 80})
+  end
 end
 ---------------------------------------------------------------------------------
 
@@ -136,6 +148,8 @@ function scene:create( event )
     issue_names = event.params.issue_names
     issue_summaries = event.params.issue_summaries
     
+    back_group = display.newGroup()
+    
     background = display.newRect(0, 0, _W, _H)
     background.x = _W * 0.5
     background.y = _H * 0.5
@@ -146,7 +160,7 @@ function scene:create( event )
     back_icon.y = _H * 0.048 + offset
     back_icon.anchorX = 0
     back_icon.anchorY = 0.5
-    back_icon.alpha = 0
+    back_icon.alpha = 1
     
     divisor = display.newImageRect("divisor.png", _W, 1)
     divisor.x = 0
@@ -180,7 +194,9 @@ function scene:create( event )
     back_title.anchorX = 0
     back_title.anchorY = 0.5
     back_title:setFillColor(1)
-    back_title.alpha = 0
+    back_title.alpha = 1
+    
+    back_group.alpha = 0
     
     title = display.newText( "Archivio", 0, 0, native.systemFont, _W * 0.05 )
     title.y = back_icon.y
@@ -190,13 +206,14 @@ function scene:create( event )
     title:setFillColor(1)
     title.alpha = 0
   
+    back_group:insert(back_icon)
+    back_group:insert(back_title)
     
     sceneGroup:insert(background)
     sceneGroup:insert(shadow)
     sceneGroup:insert(scrollView)
     sceneGroup:insert(dock)
-    sceneGroup:insert(back_icon)
-    sceneGroup:insert(back_title)
+    sceneGroup:insert(back_group)
     sceneGroup:insert(title)
     
     sceneGroup:insert(divisor)
@@ -211,11 +228,10 @@ function scene:show( event )
     if phase == "will" then
         -- Called when the scene is still off screen and is about to move on screen
         display.setStatusBar( display.TranslucentStatusBar )
-        back_icon:addEventListener("tap", on_click_back)
-        back_title:addEventListener("tap", on_click_back)
         
-        transition.to(back_title, {alpha = 1, time = 150})
-        transition.to(back_icon, {alpha = 1, time = 150})
+        back_group:addEventListener("touch", on_click_back)
+        
+        transition.to(back_group, {alpha = 1, time = 150})
         transition.to(title, {alpha = 1, time = 150})
     elseif phase == "did" then
         -- Called when the scene is now on screen
@@ -229,9 +245,12 @@ function scene:show( event )
           grid.anchorX = 0
           grid.anchorY = 0
           grid.y = 0
-          print("Grid")
+
           scrollView:insert(grid)
-          transition.to(grid, {alpha = 1, time = 500, transition = easing.inExpo})
+          
+        end
+        for i = 1, #older_issues do
+          transition.to(older_issues[i], {alpha = 1, time = 400 + (i - 1) * 20, delay = (i - 1) * 80, transition = easing.inExpo})
         end
     end 
 end
@@ -245,11 +264,12 @@ function scene:hide( event )
         --
         -- INSERT code here to pause the scene
         -- e.g. stop timers, stop animation, unload sounds, etc.)
-        back_icon:removeEventListener("tap", on_click_back)
-        back_title:removeEventListener("tap", on_click_back)
-        transition.to(back_icon, {alpha = 0, time = 150})
-        transition.to(back_title, {alpha = 0, time = 150})
+        back_group:removeEventListener("touch", on_click_back)
+        transition.to(back_group, {alpha = 0, time = 150})
         transition.to(title, {alpha = 0, time = 150})
+        for i = 1, #older_issues do
+          transition.to(older_issues[i], {alpha = 0, time = 400 + (i - 1) * 20, delay = (i - 1) * 80, transition = easing.outExpo})
+        end
     elseif phase == "did" then
         -- Called when the scene is now off screen
         

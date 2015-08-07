@@ -11,7 +11,7 @@ local _H = display.contentHeight
 -- show status bar for iPhones
 local offset = display.statusBarHeight * 0.6
 local pl = system.getInfo( "platformName" )
-if pl == "Android" or pl == "Wisn" then
+if pl == "kAndroid" or pl == "Wisn" then
 	offset = 0
 end
 
@@ -28,7 +28,7 @@ local scene = composer.newScene( sceneName )
 -- Variables
 local divisor
 local dock
-
+local orange_shadow
 local magazine_cover
 local black_cover
 local sample_articles = {}
@@ -58,9 +58,9 @@ params.progress = true
 local function networkListener( event )
 
     if ( event.isError ) then
-        print( "Network error!" )
+      --
     else
-        print ( "RESPONSE: " .. event.response )
+       --
     end
 end
 
@@ -79,20 +79,23 @@ end
 
 
 local function inputListener( event )
-    if event.phase == "began" then
-        -- user begins editing textBox
-        print( event.text )
-
-    elseif event.phase == "ended" then
-        -- do something with textBox text
-        print( event.target.text )
-
-    elseif event.phase == "editing" then
-        print( event.newCharacters )
-        print( event.oldText )
-        print( event.startPosition )
-        print( event.text )
-    end
+    if e.phase == "began" then
+    transition.to(e.target, {alpha = 0.7, time = 30})
+  elseif e.phase == "cancelled" then
+    transition.to(e.target, {alpha = 1, time = 80})
+  elseif e.phase == "ended" then
+    local options =
+    {
+        effect = "fromLeft",
+        time = 400,
+        params = {
+        }
+    }
+    composer.gotoScene("ipse", options)
+    transition.to(e.target, {alpha = 1, time = 90})
+  else
+    transition.to(e.target, {alpha = 1, time = 80})
+  end
 end
 
 
@@ -166,6 +169,19 @@ function scene:create( event )
     send_btn.anchorY = 0.5
     send_btn:setFillColor(unpack(orange))
     
+    orange_shadow = display.newRoundedRect(0, 0, _W * 0.38, _W * 0.117, _H * 0.009)
+    orange_shadow.x = send_btn.x
+    orange_shadow.y = send_btn.y - send_btn.height * 0.5
+    orange_shadow.anchorX = 0.5
+    orange_shadow.anchorY = 0
+    orange_shadow:setFillColor(0.2)
+    
+    orange_shadow.fill.effect = "filter.linearWipe"
+
+    orange_shadow.fill.effect.direction = { 0, 1 }
+    orange_shadow.fill.effect.smoothness = 0.5
+    orange_shadow.fill.effect.progress = 0.7
+    
     send_txt = display.newText( "Invia", 0, 0, native.systemFontBold, _W * 0.04 )
     send_txt:setFillColor( 1, 1, 1)
     send_txt.y = send_btn.y
@@ -198,6 +214,7 @@ function scene:create( event )
     sceneGroup:insert(first_text)
     sceneGroup:insert(second_label)
     sceneGroup:insert(second_text)
+    sceneGroup:insert(orange_shadow)
     sceneGroup:insert(send_btn)
     sceneGroup:insert(send_txt)
 end
@@ -236,11 +253,12 @@ function scene:hide( event )
         first_text:addEventListener( "userInput", inputListener )
         transition.to(articles_table, {y = _H * 2, time = 600, transition = easing.inExpo})
         transition.to(cancel, {alpha = 0, time = 150})
-        
+        transition.to(first_text, {alpha = 0, time = 150, onComplete = function() first_text:removeSelf() end})
+        transition.to(second_text, {alpha = 0, time = 150, onComplete = function() second_text:removeSelf() end})
     elseif phase == "did" then
         -- Called when the scene is now off screen
         
-		
+        composer.removeScene("ipse")
     end 
 end
 

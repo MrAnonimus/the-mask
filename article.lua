@@ -9,7 +9,7 @@ local _H = display.contentHeight
 
 local offset = display.statusBarHeight * 0.6
 local pl = system.getInfo( "platformName" )
-if pl == "Android" or pl == "Wisn" then
+if pl == "kAndroid" or pl == "Wisn" then
 	offset = 0
 end
 -- show status bar for iPhones
@@ -45,15 +45,28 @@ local summary
 local title_text
 local img_path
 local category
+local back_group
 local social_options
+local scrollView
+local function scrollListener( event )
+    local phase = event.phase
+	
+    if ( phase == "moved" ) then 
+		x, y = event.target:getContentPosition()
+    end
+    return true
+end
 
-local scrollView = widget.newScrollView
+scrollView = widget.newScrollView
 {
     top = 0,
     left = 0,
     width = _W,
     height = _H * 0.895,
-    bottomPadding = _H * 0.1
+    bottomPadding = _H * 0.1,
+    topPadding = 0,
+    listener = scrollListener,
+    isBounceEnabled = false
 }
 
 local function does_exist(name)
@@ -78,19 +91,35 @@ local function get_content(name)
 end
 
 local function on_click_fb(e)
-  native.showPopup( "social", social_options )
+  if e.phase == "began" then
+    transition.to(e.target, {alpha = 0.7, time = 30})
+  elseif e.phase == "cancelled" then
+    transition.to(e.target, {alpha = 1, time = 100})
+  elseif e.phase == "ended" then
+    native.showPopup( "social", social_options )
+  else
+    transition.to(e.target, {alpha = 1, time = 100})
+  end
 end
 
 local function on_click_back(e)
-  local options =
-    {
-        effect = "fromLeft",
-        time = 400,
-        params = {
-          n = 0
-        }
-    }
-    composer.gotoScene("read", options)
+  if e.phase == "began" then
+    transition.to(e.target, {alpha = 0.7, time = 30})
+  elseif e.phase == "cancelled" then
+    transition.to(e.target, {alpha = 1, time = 100})
+  elseif e.phase == "ended" then
+    local options =
+      {
+          effect = "fromLeft",
+          time = 400,
+          params = {
+            n = 0
+          }
+      }
+      composer.gotoScene("read", options)
+  else
+    transition.to(e.target, {alpha = 1, time = 100})
+  end
 end
 
 
@@ -99,7 +128,7 @@ local function show_image()
 
   image = display.newImageRect(img_path, system.DocumentsDirectory, _W , _W * 0.5)
   image.x = 0
-  image.y = _H * 0.02 + author.y + author.height
+  image.y = 0
   image.anchorX = 0
   image.anchorY = 0
   image.alpha = 0
@@ -113,17 +142,18 @@ local function show_image()
   img_shadow.alpha = 0
   scrollView:insert(img_shadow)
   scrollView:insert(image)
+  image:toFront()
   transition.to(image, {alpha = 1, time = 500, transition = easing.outExpo})
   transition.to(img_shadow, {alpha = 1, time = 500, transition = easing.outExpo})
 end
 
 local function img_networkListener( event )
     if ( event.isError ) then
-        print( "Network error - download failed" )
+        --
     elseif ( event.phase == "began" ) then
-        print( "Progress Phase: began" )
+        --
     elseif ( event.phase == "ended" ) then
-        print("Image downloaded")
+        --
         img_path =  event.response.filename
         show_image()
         social:addEventListener("tap", on_click_fb)
@@ -174,8 +204,10 @@ end
 function scene:create( event )
     local sceneGroup = self.view
     title_text = event.params.title
-    print(event.params.link)
+    
     decode_issue(get_content(event.params.link))
+    
+    back_group = display.newGroup()
     
     background = display.newRect(0, 0, _W, _H)
     background.x = _W * 0.5
@@ -205,29 +237,29 @@ function scene:create( event )
     back_title:setFillColor(1)
     back_title.alpha = 0
     
-    title = display.newText( event.params.title, 0, 0, _W * 0.9, 0, native.systemFont, _W * 0.09 )
-    title:setFillColor( 0.4, 0.4, 0.4)
-    title.y = _H * 0.02
+    title = display.newText( event.params.title, 0, 0, _W * 0.9, 0, "Roboto-Bold", _W * 0.08 )
+    title:setFillColor(0.1)
+    title.y = _H * 0.02 + _W * 0.5
     title.x = _W * 0.05
     title.anchorX = 0
     title.anchorY = 0
-    title.alpha = 1
+    title.alpha = 0.87
     
-    author = display.newText( "di "..author_name, 0, 0, _W * 0.9, 0, "Roboto Light", _W * 0.034 )
-    author:setFillColor( 0.4, 0.4, 0.4)
+    author = display.newText( "di "..author_name, 0, 0, _W * 0.9, 0, "Roboto-Thin", _W * 0.034 )
+    author:setFillColor( 0)
     author.y = title.y + title.height + _H * 0.015
     author.x = _W * 0.05
     author.anchorX = 0
     author.anchorY = 0
-    author.alpha = 1
+    author.alpha = 0.8
     
-    body = display.newText( content, 0, 0, _W * 0.9, 0, "Roboto Bold", _W * 0.050 )
-    body:setFillColor( 0.2, 0.2, 0.2)
-    body.y = author.y + author.height + _H * 0.045 + _W * 0.5
+    body = display.newText( content, 0, 0, _W * 0.9, 0, "Roboto", _W * 0.050 )
+    body:setFillColor(0)
+    body.y = author.y + author.height + _H * 0.025
     body.x = _W * 0.05
     body.anchorX = 0
     body.anchorY = 0
-    body.alpha = 1
+    body.alpha = 0.54
     
     dock = display.newRect(0, 0, _W , divisor.y)
     dock.anchorX = 0
@@ -241,7 +273,7 @@ function scene:create( event )
     shadow.rotation = 180
     shadow.x = _W * 0.5
     shadow.y = dock.height + _H * 0.005
-    shadow.alpha = 1
+    shadow.alpha = 0
     
     social = display.newImageRect("social.png", _W * 0.069, _W * 0.069)
     social.x = _W * 0.95
@@ -259,7 +291,7 @@ function scene:create( event )
     category.anchorY = 0.5
     category.alpha = 1
     
-    scrollView.y = divisor.y
+    scrollView.y = dock.height - _W * 0.005
     scrollView.height = _H - divisor.y
     scrollView.anchorY = 0
     
@@ -272,19 +304,22 @@ function scene:create( event )
         url = "http://themask.liceomascheroni.it/"
     }
     
+    back_group:insert(back_icon)
+    back_group:insert(back_title)
+    
     sceneGroup:insert(background)
+    sceneGroup:insert(scrollView)
+    sceneGroup:insert(divisor)
     sceneGroup:insert(shadow)
     sceneGroup:insert(dock)
-    sceneGroup:insert(back_icon)
     sceneGroup:insert(social)
     sceneGroup:insert(category)
-    sceneGroup:insert(back_title)
+    sceneGroup:insert(back_group)
     scrollView:insert(title)
     scrollView:insert(author)
     scrollView:insert(body)
     
-    sceneGroup:insert(scrollView)
-    sceneGroup:insert(divisor)
+    
     
 end
 
@@ -296,8 +331,8 @@ function scene:show( event )
         -- Called when the scene is still off screen and is about to move on screen
         display.setStatusBar( display.TranslucentStatusBar )
 
-        back_icon:addEventListener("tap", on_click_back)
-        back_title:addEventListener("tap", on_click_back)
+        back_group:addEventListener("touch", on_click_back)
+  
         transition.to(social, {alpha = 1, time = 150})
         transition.to(back_title, {alpha = 1, time = 150})
         transition.to(back_icon, {alpha = 1, time = 150})
@@ -313,7 +348,7 @@ function scene:show( event )
         else
           img_path =  string.gsub(title_text, " ", "_")..".jpg"
           show_image()
-          social:addEventListener("tap", on_click_fb)
+          social:addEventListener("touch", on_click_fb)
         end
     elseif phase == "did" then
         -- Called when the scene is now on screen
@@ -335,9 +370,8 @@ function scene:hide( event )
         --
         -- INSERT code here to pause the scene
         -- e.g. stop timers, stop animation, unload sounds, etc.)
-        back_icon:removeEventListener("tap", on_click_back)
-        social:removeEventListener("tap", on_click_fb)
-        back_title:removeEventListener("tap", on_click_back)
+        back_group:removeEventListener("touch", on_click_back)
+        social:removeEventListener("touch", on_click_fb)
         transition.to(social, {alpha = 0, time = 150})
         transition.to(back_icon, {alpha = 0, time = 150})
         transition.to(back_title, {alpha = 0, time = 150})
