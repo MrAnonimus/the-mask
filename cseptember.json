@@ -32,7 +32,7 @@
       },
       "1":{  
          "category":"e",
-         "summary":"Cos\u00ec inizia la quarta edizione di The Mask",
+         "summary":"Cosi' inizia la quarta edizione di The Mask",
          "link":"grazie_c.json",
          "title":"Grazie"
       },
@@ -50,7 +50,7 @@
       },
       "5":{  
          "category":"b",
-         "summary":"La conclusione di Expo \u00e8 ormai alle porte",
+         "summary":"La conclusione di Expo e' ormai alle porte",
          "link":"expo_numerosi_visitatori_pochi_temi_concreti_c.json",
          "title":"Expo: Numerosi Visitatori, Pochi Temi Concreti"
       },
@@ -69,18 +69,18 @@
       "6":{  
          "category":"b",
          "summary":"La politica in crisi esistenziale",
-         "link":"ma_cos\u00e8_la_destra_cos\u00e8_la_sinistra_c.json",
-         "title":"Ma cos'\u00e8 la Destra, cos'\u00e8 la Sinistra?"
+         "link":"ma_cose_la_destra_cose_la_sinistra_c.json",
+         "title":"Ma cose la Destra, cose la Sinistra?"
       },
       "9":{  
          "category":"j",
          "summary":"Il valore di pensare diversamente",
-         "link":"le_verit\u00e0_difficili_c.json",
-         "title":"Le Verit\u00e0 Difficili"
+         "link":"le_verita_difficili_c.json",
+         "title":"Le Verita Difficili"
       },
       "8":{  
          "category":"i",
-         "summary":"Abbiate malinconia per la felicit\u00e0",
+         "summary":"Abbiate malinconia per la felicita'",
          "link":"get_it_while_you_can_c.json",
          "title":"Get It While You Can"
       }
