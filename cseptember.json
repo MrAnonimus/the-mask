@@ -1,0 +1,88 @@
+{  
+   "info":{  
+      "date":"Ottobre 15",
+      "img":"https://farm1.staticflickr.com/735/20995346482_fe6782371c.jpg",
+      "n":"13",
+      "id":"13"
+   },
+   "articles":{  
+      "11":{  
+         "category":"b",
+         "summary":"Ecco le auto ideali per il perfetto Mascheroniano",
+         "link":"ho_la_patente_e_adesso_c.json",
+         "title":"Ho la Patente e Adesso?"
+      },
+      "10":{  
+         "category":"f",
+         "summary":"Personaggio del mese: Tom Hiddleston",
+         "link":"cinemask_c.json",
+         "title":"Cinemask"
+      },
+      "13":{  
+         "category":"c",
+         "summary":"\"Mercatanti in fiera\" torna a Bergamo con quattro giornate multietniche",
+         "link":"eat-parade_c.json",
+         "title":"Eat-Parade"
+      },
+      "12":{  
+         "category":"k",
+         "summary":"Le verifiche del futuro",
+         "link":"circuiti_organici_c.json",
+         "title":"Circuiti Organici"
+      },
+      "1":{  
+         "category":"e",
+         "summary":"Cos\u00ec inizia la quarta edizione di The Mask",
+         "link":"grazie_c.json",
+         "title":"Grazie"
+      },
+      "3":{  
+         "category":"l",
+         "summary":"La luce che brilla negli occhi dei volontari...",
+         "link":"dopo_il_verbo_amare_aiutare_e_il_piu_bello_del_mondo_c.json",
+         "title":"Dopo il Verbo \"Amare\", \"Aiutare\" e' il piu' Bello del Mondo"
+      },
+      "2":{  
+         "category":"l",
+         "summary":"Il dirigente si presenta",
+         "link":"mascheroni_bello_coinvolgente_e_complesso_c.json",
+         "title":"Mascheroni: \"Bello, coinvolgente e complesso\""
+      },
+      "5":{  
+         "category":"b",
+         "summary":"La conclusione di Expo \u00e8 ormai alle porte",
+         "link":"expo_numerosi_visitatori_pochi_temi_concreti_c.json",
+         "title":"Expo: Numerosi Visitatori, Pochi Temi Concreti"
+      },
+      "4":{  
+         "category":"k",
+         "summary":"Il liceo Lorenzo Mascheroni scende in piazza",
+         "link":"facciamo_luce_sulla_fisica_c.json",
+         "title":"Facciamo Luce sulla Fisica"
+      },
+      "7":{  
+         "category":"n",
+         "summary":"Non mi piace essere banale",
+         "link":"quando_lintrospezione_porta_a_conclusioni_scomode_c.json",
+         "title":"Quando l'Introspezione porta a Conclusioni Scomode"
+      },
+      "6":{  
+         "category":"b",
+         "summary":"La politica in crisi esistenziale",
+         "link":"ma_cos\u00e8_la_destra_cos\u00e8_la_sinistra_c.json",
+         "title":"Ma cos'\u00e8 la Destra, cos'\u00e8 la Sinistra?"
+      },
+      "9":{  
+         "category":"j",
+         "summary":"Il valore di pensare diversamente",
+         "link":"le_verit\u00e0_difficili_c.json",
+         "title":"Le Verit\u00e0 Difficili"
+      },
+      "8":{  
+         "category":"i",
+         "summary":"Abbiate malinconia per la felicit\u00e0",
+         "link":"get_it_while_you_can_c.json",
+         "title":"Get It While You Can"
+      }
+   }
+}
