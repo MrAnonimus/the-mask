@@ -12,7 +12,7 @@
          "link":"il_tempo_dei_sentimenti.json",
          "title":"Il tempo dei sentimenti"
       },
-      "2":{  
+      "4":{  
          "category":"b",
          "summary":"Un’indipendenza catalana è possibile, anzi  è  stata  addirittura  proclamata...",
          "link":"la_independencia_de_catalunya.json",
@@ -24,7 +24,7 @@
          "link":"carpe_bus.json",
          "title":"Carpe Bus"
       },
-      "4":{  
+      "2":{  
          "category":"l",
          "summary":"Guardo l'orologio, mezzogiorno...",
          "link":"che_classe.json",
@@ -75,8 +75,8 @@
       "12":{  
          "category":"f",
          "summary":"Hunger Games, James Bond",
-         "link":"cinemask.json",
-         "title":"Cinemask"
+         "link":"cinemask_d.json",
+         "title":"Cinemask, Hunger Games e James Bond"
       },
       "13":{  
          "category":"k",
