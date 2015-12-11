@@ -1,0 +1,94 @@
+{  
+   "info":{  
+      "date":"Novembre 15",
+      "img":"https://farm1.staticflickr.com/735/20995346482_fe6782371c.jpg",
+      "n":"14",
+      "id":"14"
+   },
+   "articles":{  
+      "1":{  
+         "category":"e",
+         "summary":"Editoriale",
+         "link":"il_tempo_dei_sentimenti.json",
+         "title":"Il tempo dei sentimenti"
+      },
+      "2":{  
+         "category":"b",
+         "summary":"Un’indipendenza catalana è possibile, anzi  è  stata  addirittura  proclamata...",
+         "link":"la_independencia_de_catalunya.json",
+         "title":"La Independencia de Catalunya"
+      },
+      "3":{  
+         "category":"l",
+         "summary":"La quotidiana odissea degli studenti",
+         "link":"carpe_bus.json",
+         "title":"Carpe Bus"
+      },
+      "4":{  
+         "category":"l",
+         "summary":"Guardo l'orologio, mezzogiorno...",
+         "link":"che_classe.json",
+         "title":"Che Classe"
+      },
+      "5":{  
+         "category":"l",
+         "summary":"In inverno in Polonia...",
+         "link":"auschwitz_birkenau.json",
+         "title":"Auschwitz Birkenau"
+      },
+      "6":{  
+         "category":"l",
+         "summary":"Come le biotecnologie riscrivono il libro della vita",
+         "link":"ogm_buoni_brutti_o_cattivi.json",
+         "title":"OGM, buoni, brutti o cattivi"
+      },
+      "7":{  
+         "category":"b",
+         "summary":"L'Isis colpisce l'Europa",
+         "link":"je_suis_paris.json",
+         "title":"Je Suis Paris"
+      },
+      "8":{  
+         "category":"b",
+         "summary":"Le bombe non bastano",
+         "link":"il_mondo_dopo_il_cordoglio.json",
+         "title":"Il Mondo dopo il Cordoglio"
+      },
+      "9":{  
+         "category":"d",
+         "summary":"La torta non è fissa",
+         "link":"la_concorrenza.json",
+         "title":"La Concorrenza"
+      },
+      "10":{  
+         "category":"l",
+         "summary":"Tre domande per valutare il proprio profitto",
+         "link":"autovalutazione_e_profitto_scolastico.json",
+         "title":"Autovalutazione e Profitto Scolastico"
+      },
+      "11":{  
+         "category":"e",
+         "summary":"A volte capita...",
+         "link":"a_proposito_del_tempo.json",
+         "title":"A Proposito del Tempo"
+      },
+      "12":{  
+         "category":"f",
+         "summary":"Hunger Games, James Bond",
+         "link":"cinemask.json",
+         "title":"Cinemask"
+      },
+      "13":{  
+         "category":"k",
+         "summary":"Muovere una pallina con il solo aiuto del suono",
+         "link":"da_star_wars_e_star_trek_il_raggio_traente_diventa_realta.json",
+         "title":"Da Star Wars e Star Trek, il Raggio Traente Diventa Realta'"
+      },
+      "14":{  
+         "category":"m",
+         "summary":"Muovere una pallina con il solo aiuto del suono",
+         "link":"wifi_e_superpoteri.json",
+         "title":"WiFi e Superpoteri"
+      }
+   }
+}
