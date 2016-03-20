@@ -1,0 +1,40 @@
+{  
+   "info":{  
+      "date":"Interscambio",
+      "img":"https://farm1.staticflickr.com/735/20995346482_fe6782371c.jpg",
+      "n":"5",
+      "id":"15"
+   },
+   "articles":{  
+      "1":{  
+         "category":"e",
+         "summary":"Editoriale",
+         "link":"pick_this_one_up.json",
+         "title":"Pick This One Up"
+      },
+      "2":{  
+         "category":"b",
+         "summary":"Lo scambio internazionale persegue...",
+         "link":"attivita_di_interscambio_internazionale.json",
+         "title":"Attivita' di Interscambio Internazionale"
+      },
+      "3":{  
+         "category":"b",
+         "summary":"Carissimi ragazzi...",
+         "link":"commissione.json",
+         "title":"Commissione"
+      },
+      "4":{  
+         "category":"b",
+         "summary":"L'anno scorso ad aprile...",
+         "link":"interscambio_ad_espinho.json",
+         "title":"Interscambio a Espinho"
+      },
+      "5":{  
+         "category":"b",
+         "summary":"Sono passati alcuni mesi...",
+         "link":"un_genitore_racconta_la_sua_esperienza....json",
+         "title":"Un Genitore Racconta la sua Esperienza"
+      }
+   }
+}
