@@ -1,0 +1,100 @@
+﻿{  
+   "info":{  
+      "date":"Marzo 16",
+      "img":"https://farm1.staticflickr.com/735/20995346482_fe6782371c.jpg",
+      "n":"15",
+      "id":"16"
+   },
+   "articles":{  
+      "1":{  
+         "category":"e",
+         "summary":"Il copione all'italiana",
+         "link":"editoriale_m.json",
+         "title":"Editoriale XX"
+      },
+      "2":{  
+         "category":"l",
+         "summary":"The Mask & Cassandra",
+         "link":"vivere_una_distanza.json",
+         "title":"Vivere una Distanza"
+      },
+      "3":{  
+         "category":"l",
+         "summary":"The Mask & Cassandra",
+         "link":"la_distanza.json",
+         "title":"La Distanza"
+      },
+      "4":{  
+         "category":"l",
+         "summary":"Due nerazzurri a confronto",
+         "link":"panigada_e_panseri.json",
+         "title":"Panigada Vs Panseri"
+      },
+      "5":{  
+         "category":"l",
+         "summary":"Un viaggio interiore per non dimenticare",
+         "link":"pellegrinaggio_memoria_2016.json",
+         "title":"Il Pellegrinaggio della Memoria 2016"
+      },
+      "6":{  
+         "category":"b",
+         "summary":"Andiamo a fare gli Youtuber",
+         "link":"youtube.json",
+         "title":"Youtube"
+      },
+      "7":{  
+         "category":"b",
+         "summary":"Rispettare la cultura o proteggere gli interessi economici",
+         "link":"il_caso_rohani.json",
+         "title":"Il Caso Rohani"
+      },
+      "8":{  
+         "category":"b",
+         "summary":"Il regalo? Forme completamente diverse",
+         "link":"buon_compleanno_barbie.json",
+         "title":"Buon Compleanno Barbie"
+      },
+      "9":{  
+         "category":"b",
+         "summary":"La storia dell'organicismo dell'individualità",
+         "link":"siamo_qui.json",
+         "title":"Siamo Qui"
+      },
+      "10":{  
+         "category":"b",
+         "summary":"Bilancio sul festival della canzone nazionalpopolare",
+         "link":"sanremo_2016.json",
+         "title":"Sanremo 2016"
+      },
+      "11":{  
+         "category":"a",
+         "summary":" '' Usatela per imparare a fare ricerca'' ",
+         "link":"biblioteca_mai.json",
+         "title":"La Riapertura della Biblioteca Angelo Mai"
+      },
+      "12":{  
+         "category":"f",
+         "summary":"Speciale: Leonardo di Caprio",
+         "link":"cinemask_m.json",
+         "title":"Cinemask"
+      },
+      "13":{  
+         "category":"k",
+         "summary":"I bet that most of you...",
+         "link":"electromagnetic_pollution.json",
+         "title":"Electromagnetic Pollution"
+      },
+       "14":{  
+         "category":"k",
+         "summary":"Le nuove frontiere del cibo in capsule",
+         "link":"un_mondo_di_cialde.json",
+         "title":"Un Mondo di Cialde"
+      },
+       "15":{  
+         "category":"k",
+         "summary":"Le sindromi neuropsichiatriche più strane",
+         "link":"uno_sguardo_alla_mente_umana.json",
+         "title":"Uno Sguardo alla Mente Umana"
+      }
+   }
+}
